@@ -1,0 +1,297 @@
+{
+  "$comment": "Hand-curated domain model for the site. `data/site-content.json` is generated from code; this file records the *meaning* — entities, animation specs, media facts and known gaps — so the next build (CMS, DB, native app, second landing page) can start from data instead of re-reading TSX.",
+  "meta": {
+    "siteName": "VELORA Paris",
+    "product": "Éclat",
+    "category": "fragrance-editorial-landing",
+    "locales": ["en", "fr"],
+    "defaultLocale": "en",
+    "persistence": "localStorage",
+    "commerce": "none (selection only, no payment, no inventory)"
+  },
+  "product": {
+    "slug": "eclat",
+    "name": "Éclat",
+    "brand": "VELORA Paris",
+    "concentration": "Eau de parfum",
+    "volume": "100 ml / 3.4 fl. oz.",
+    "family": ["Floral", "Fruity", "Woody"],
+    "image": "bottle",
+    "missing": ["price", "sku", "inventory", "ingredients/INCI", "cruelty-free & IFRA claims", "variant list"]
+  },
+  "notes": [
+    {
+      "id": "peach",
+      "tier": "opening",
+      "tierIndex": 0,
+      "titleKey": "peach",
+      "subKey": "peachSub",
+      "copyKey": "peachCopy",
+      "image": "notes",
+      "cardClass": "peach-card",
+      "gridOffsetPx": 150
+    },
+    {
+      "id": "jasmine",
+      "tier": "heart",
+      "tierIndex": 1,
+      "titleKey": "jasmine",
+      "subKey": "jasmineSub",
+      "copyKey": "jasmineCopy",
+      "image": "notes",
+      "cardClass": "jasmine-card",
+      "gridOffsetPx": 260
+    },
+    {
+      "id": "soft-woods",
+      "tier": "trail",
+      "tierIndex": 2,
+      "titleKey": "wood",
+      "subKey": "woodSub",
+      "copyKey": "woodCopy",
+      "image": "notes",
+      "cardClass": "wood-card",
+      "gridOffsetPx": 170
+    }
+  ],
+  "sections": [
+    {
+      "index": 0,
+      "order": 0,
+      "id": "top",
+      "name": "Hero",
+      "anchors": ["#top"],
+      "components": ["Brand", "Lines", "hero-scene", "hero-copy", "hero-caption", "hero-wordmark", "scroll-cue"],
+      "media": ["hero"],
+      "copyKeys": ["heroOne", "heroTwo", "heroCopy", "explore", "scroll", "eau"],
+      "animations": [
+        { "target": ".hero-photo", "props": "yPercent 15, scale 1.13", "scrub": 1.2, "trigger": ".hero", "start": "top top", "end": "bottom top" },
+        { "target": ".hero-copy", "props": "y -110, opacity 0", "scrub": 0.6, "trigger": ".hero", "start": "15% top", "end": "85% top" },
+        { "target": ".hero-wordmark", "props": "yPercent -28", "scrub": 0.8, "trigger": ".hero", "start": "top top", "end": "bottom top" },
+        { "target": ".hero-scene", "props": "pointer parallax x/y", "scrub": null, "trigger": "pointermove", "start": null, "end": null }
+      ],
+      "states": ["mouse parallax", "scroll scrub"]
+    },
+    {
+      "index": 1,
+      "order": 1,
+      "id": "notes",
+      "name": "Statement + staggered scent cards",
+      "anchors": ["#notes"],
+      "components": ["section-index", "intro-copy", "statement", "statement-word", "scent-grid", "scent-card", "card-tag", "card-copy", "card-plus"],
+      "media": ["notes"],
+      "copyKeys": ["label", "statement", "storySmall", "notesLabel", "notesTitle", "noteTabs"],
+      "animations": [
+        { "target": ".statement-word", "props": "opacity 0.2 -> 1, stagger 0.12", "scrub": 0.6, "trigger": ".statement", "start": "top 82%", "end": "bottom 45%" },
+        { "target": ".scent-card", "props": "y [150,260,170,240] -> 0", "scrub": 0.8, "trigger": ".scent-grid", "start": "top 95%", "end": "center 48%" }
+      ],
+      "states": ["card click -> sets note tab + scrolls to #composition"]
+    },
+    {
+      "index": 2,
+      "order": 2,
+      "id": "collection",
+      "name": "Signature product (pinned)",
+      "anchors": ["#collection"],
+      "components": ["signature-stage", "signature-ghost", "signature-label", "signature-product", "signature-bottle", "signature-info", "pill"],
+      "media": ["bottle"],
+      "copyKeys": ["signature", "bottleTitle", "bottleCopy", "discover", "scent", "eau", "size"],
+      "animations": [
+        { "target": ".signature-stage", "props": "pin, end +=1100, scrub 1 (min-width 800px only)", "scrub": 1, "trigger": ".signature", "start": "top top", "end": "+=1100" },
+        { "target": ".signature-bottle", "props": "y 55->-25, rotation -8->5, scale .84->1.06", "scrub": 1, "trigger": ".signature", "start": "top top", "end": "+=1100" },
+        { "target": ".signature-ghost", "props": "xPercent -7 -> 8", "scrub": 1, "trigger": ".signature", "start": "top top", "end": "+=1100" },
+        { "target": ".signature-info", "props": "y 80 -> -35", "scrub": 1, "trigger": ".signature", "start": "top top", "end": "+=1100" }
+      ],
+      "states": ["add to bag", "open product modal"]
+    },
+    {
+      "index": 3,
+      "order": 3,
+      "id": "composition",
+      "name": "Interactive note composition (tabs)",
+      "anchors": ["#composition"],
+      "components": ["note-tabs", "note-description", "product-notes", "composition-image"],
+      "media": ["notes"],
+      "copyKeys": ["notesLabel", "peach", "jasmine", "wood"],
+      "animations": [
+        { "target": ".reveal-line", "props": "yPercent 110 -> 0, power3.out, once", "scrub": null, "trigger": "each line", "start": "top 95%", "end": null }
+      ],
+      "states": ["keyboard-operable tabs (Opening / Heart / Trail)"]
+    },
+    {
+      "index": 4,
+      "order": 4,
+      "id": "story",
+      "name": "Brand world / editorial",
+      "anchors": ["#story"],
+      "components": ["world-copy", "world-image", "world-signature", "image-caption"],
+      "media": ["hero"],
+      "copyKeys": ["worldLabel", "worldTitle", "worldCopy", "worldCta"],
+      "animations": [
+        { "target": ".world-image img", "props": "yPercent -10 -> 10, scale 1.15", "scrub": 1, "trigger": ".world", "start": "top bottom", "end": "bottom top" }
+      ],
+      "states": []
+    },
+    {
+      "index": 5,
+      "order": 5,
+      "id": "journal",
+      "name": "Journal / news cards",
+      "anchors": ["#journal"],
+      "components": ["journal-heading", "journal-grid", "journal-card", "journal-picture", "journal-circle", "journal-card-info", "text-link"],
+      "media": ["hero", "notes"],
+      "copyKeys": ["journalLabel", "journalTitle", "articleOne", "articleTwo", "read"],
+      "animations": [],
+      "states": ["card click -> journal modal with article body"]
+    },
+    {
+      "index": 6,
+      "order": 6,
+      "id": null,
+      "name": "Closing campaign",
+      "anchors": [],
+      "components": ["closing-image", "closing-shade", "closing-content", "pill"],
+      "media": ["hero"],
+      "copyKeys": ["closing", "closingCta"],
+      "animations": [
+        { "target": ".closing-image", "props": "scale 1.2 -> 1", "scrub": 1, "trigger": ".closing", "start": "top bottom", "end": "bottom bottom" }
+      ],
+      "states": ["opens product modal"]
+    },
+    {
+      "index": 7,
+      "order": 7,
+      "id": null,
+      "name": "Footer",
+      "anchors": ["#top"],
+      "components": ["footer-top", "footer-service", "footer-wordmark", "footer-bottom"],
+      "media": [],
+      "copyKeys": ["footerLine", "care", "privacy", "back"],
+      "animations": [],
+      "states": ["care/privacy open the modal", "back to top via Lenis"]
+    }
+  ],
+  "overlays": {
+    "curtain": { "class": "intro-curtain", "behavior": "ivory full-screen curtain, lifts after `ready`; ready is set on a 1800 ms timer (immediate under prefers-reduced-motion)" },
+    "header": { "class": "header", "behavior": "transparent over hero, gains translucent warm-brown tint when window.scrollY > 60" },
+    "modalHost": { "element": "native <dialog>", "panels": ["search", "bag", "product", "menu", "journal", "care"], "behavior": "showModal()/close() driven by `panel` state; Lenis is stopped while open; data-lenis-prevent on inner scroll area" },
+    "toast": { "class": "toast", "behavior": "role=status, auto-dismiss 3200 ms" }
+  },
+  "news": [
+    {
+      "id": "golden-hour",
+      "slot": "journal-01",
+      "category": { "en": "Inspiration", "fr": "Inspiration" },
+      "titleKey": "articleOne",
+      "image": "hero",
+      "author": null,
+      "publishedAt": null,
+      "body": {
+        "en": [
+          "There is a moment just before the sun slips away when the world seems to soften. Stone turns honey-coloured. The air is warm, and everything feels a little closer.",
+          "This is the feeling at the heart of Éclat: the luminous sweetness of peach, the quiet beauty of jasmine, the familiar warmth of soft woods. A composition inspired by the light we wish we could keep.",
+          "Some moments pass. Others become part of us."
+        ],
+        "fr": [
+          "Juste avant que le soleil disparaisse, le monde semble s'adoucir. La pierre devient couleur de miel. L'air est chaud et tout paraît plus proche.",
+          "C'est l'émotion au cœur d'Éclat : la douceur lumineuse de la pêche, la beauté discrète du jasmin, la chaleur familière des bois doux.",
+          "Certains instants passent. D'autres deviennent une part de nous."
+        ]
+      }
+    },
+    {
+      "id": "wear-your-way",
+      "slot": "journal-02",
+      "category": { "en": "Rituals", "fr": "Rituels" },
+      "titleKey": "articleTwo",
+      "image": "notes",
+      "author": null,
+      "publishedAt": null,
+      "body": {
+        "en": [
+          "A fragrance is a personal ritual. A pause before the day begins, a small finishing touch before an evening out, or simply something beautiful for yourself.",
+          "Let Éclat settle naturally on the skin. Notice the bright opening, the floral heart, and the soft warmth that follows. Each part of the composition has its own moment.",
+          "Wear it for the occasion. Or let it be the occasion."
+        ],
+        "fr": [
+          "Le parfum est un rituel personnel. Une pause avant de commencer la journée, une touche avant de sortir, ou simplement un plaisir pour soi.",
+          "Laissez Éclat se poser naturellement sur la peau. Découvrez son envolée lumineuse, son cœur floral et la chaleur douce qui suit.",
+          "Portez-le pour une occasion. Ou faites-en l'occasion."
+        ]
+      }
+    }
+  ],
+  "policies": [
+    {
+      "id": "fragrance-care",
+      "titleKey": "care",
+      "body": {
+        "en": "Keep your fragrance away from direct sunlight and heat. Store the bottle upright with the cap in place, in a cool, dry setting. Let the fragrance dry naturally on the skin.",
+        "fr": "Gardez votre parfum à l'abri du soleil et de la chaleur. Rangez le flacon debout et fermé dans un endroit frais et sec. Laissez le parfum sécher naturellement sur la peau."
+      }
+    },
+    {
+      "id": "privacy-and-bag",
+      "titleKey": "privacy",
+      "body": {
+        "en": "Your fragrance selection and language preference are saved only in this browser. Search is performed on this page. No payment, order or account is created. Clearing your browser's site data removes your saved selection.",
+        "fr": "Votre sélection et votre langue sont enregistrées uniquement dans ce navigateur. La recherche s'effectue sur cette page. Aucun paiement, commande ou compte n'est créé. Effacer les données du site supprime votre sélection."
+      }
+    }
+  ],
+  "search": {
+    "engine": "client-side substring match over `title + keywords`",
+    "entries": [
+      { "title": "Éclat — Eau de parfum", "keywords": "eclat éclat peach pêche jasmine jasmin woods bois fragrance parfum", "image": "bottle", "action": "open product modal" },
+      { "title": "A feeling, in three notes.", "keywords": "notes peach pêche jasmine jasmin woods bois composition", "image": "notes", "action": "scroll #notes" },
+      { "title": "For moments that stay.", "keywords": "story histoire velora paris maison", "image": "hero", "action": "scroll #story" }
+    ],
+    "missing": ["fuzzy/typo tolerance", "per-locale keyword sets", "result analytics"]
+  },
+  "media": [
+    { "file": "hero-clear.webp", "usedBy": ["hero", "story", "closing", "journal-01"], "width": 1672, "height": 941, "bytes": 1857780, "encoding": "lossless webp", "alt": "VELORA Éclat, surrounded by peach and jasmine in the golden light of a Mediterranean sunset" },
+    { "file": "bottle-clear.webp", "usedBy": ["collection", "product-modal", "bag-item"], "width": 1086, "height": 1448, "bytes": 1040216, "encoding": "lossless webp", "alt": "Éclat" },
+    { "file": "notes-clear.webp", "usedBy": ["scent-cards", "composition", "journal-02"], "width": 1536, "height": 1024, "bytes": 1872062, "encoding": "lossless webp", "alt": "Warm woods in golden light" },
+    { "file": "brand-reference.png", "usedBy": ["Brand (clipped + luminance-to-alpha SVG filter)"], "width": 1600, "height": 900, "bytes": 2310478, "encoding": "png", "alt": "" },
+    { "file": "hero.webp", "usedBy": [], "width": 1672, "height": 941, "bytes": 324998, "encoding": "lossy webp", "alt": null },
+    { "file": "bottle.webp", "usedBy": [], "width": 1086, "height": 1448, "bytes": 251320, "encoding": "lossy webp", "alt": null },
+    { "file": "notes.webp", "usedBy": [], "width": 1536, "height": 1024, "bytes": 305968, "encoding": "lossy webp", "alt": null },
+    { "file": "fonts/editorial-regular.otf", "usedBy": ["--serif"], "bytes": 98200, "encoding": "otf", "fallback": "Georgia, serif" },
+    { "file": "fonts/editorial-italic.otf", "usedBy": ["--serif italic"], "bytes": 105684, "encoding": "otf", "fallback": "Georgia, serif" },
+    { "file": "fonts/sans-regular.otf", "usedBy": ["--sans"], "bytes": 82264, "encoding": "otf", "fallback": "Arial, sans-serif" }
+  ],
+  "designTokens": {
+    "color": { "cream": "#faf1df", "peach": "#eed0b7", "ink": "#422c20", "amber": "#a5582d", "muted": "#806b59", "focus": "#a75e38" },
+    "font": { "serif": "Editorial, Georgia, serif", "sans": "Maison, Arial, sans-serif" },
+    "breakpoints": [1700, 1300, 1050, 800, 440],
+    "motion": { "lenisDuration": 1.05, "curtainMs": 1800, "toastMs": 3200, "revealDuration": 1.2, "scrollPaddingTop": 100 }
+  },
+  "runtime": {
+    "state": [
+      { "name": "lang", "type": "'en' | 'fr'", "persisted": true },
+      { "name": "panel", "type": "search | bag | product | menu | journal | care | null", "persisted": false },
+      { "name": "query", "type": "string", "persisted": false },
+      { "name": "bag", "type": "number 0..20", "persisted": true },
+      { "name": "note", "type": "number 0..2", "persisted": false },
+      { "name": "article", "type": "number 0..1", "persisted": false },
+      { "name": "toast", "type": "string", "persisted": false },
+      { "name": "ready", "type": "boolean (curtain lifted)", "persisted": false },
+      { "name": "sticky", "type": "boolean (header state)", "persisted": false }
+    ],
+    "storageKeys": ["velora-selection", "velora-language"],
+    "agentTools": [
+      { "name": "get_eclat_details", "readOnly": true, "purpose": "exposes product facts through document.modelContext (AI-in-page tool API)" },
+      { "name": "set_fragrance_selection", "readOnly": false, "purpose": "sets bag quantity 0..20 and opens the bag panel" }
+    ]
+  },
+  "gaps": [
+    "No data layer: copy, notes and animation offsets are inline constants in app/page.tsx.",
+    "Lossless WebP hero/notes images cost ~1.9 MB each; the lossy twins already on disk are ~5-6x smaller and unused.",
+    "brand-reference.png is loaded full-size (2.3 MB) and CSS-cropped to render the wordmark; the crop is not baked.",
+    "Journal/news entries have no author, date, slug or standalone route, so they cannot be linked or paginated.",
+    "Product has no price/SKU/inventory, so no real checkout can be built on the current model.",
+    "Search vocabulary is a hand-written keyword string, not derived from the data.",
+    "No LICENSE file upstream, so reuse/redistribution rights are unclear.",
+    "Every animation is keyed to global CSS class names; renaming a class silently kills the animation."
+  ]
+}
