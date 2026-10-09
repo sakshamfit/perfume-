@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss/index.css";
 @font-face {
   font-family: Editorial;
   src: url("/fonts/editorial-regular.otf") format("opentype");
@@ -1077,9 +1077,6 @@ footer {
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.01em;
-}
-.footer-made .source {
-  opacity: 0.66;
 }
 .modal {
   padding: 0;

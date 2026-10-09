@@ -1,4 +1,5 @@
 import vinext from "vinext";
+import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
@@ -15,6 +16,9 @@ const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 // Opt-in escape hatch for proxied dev servers (preview tunnels, Codespaces).
 const allowAllHosts = process.env.DEV_ALLOW_ALL_HOSTS === "1";
 const managedLinux = readExecutionProfile() === "managed-linux";
+// Vercel sets VERCEL=1 at build time. There, Nitro emits Vercel's Build Output API
+// (.vercel/output) in place of the Cloudflare Worker bundle in dist/.
+const onVercel = process.env.VERCEL === "1";
 
 const localBindingConfig = {
   main: "./build/sites-worker.ts",
@@ -73,7 +77,7 @@ export default defineConfig(async ({ command }) => {
       vinext(),
       sites({ mockAuth: !managedLinux }),
       connectorPreview(),
-      cloudflare({
+      ...(onVercel ? [nitro()] : [cloudflare({
         viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
         inspectorPort: false,
         config: {
@@ -103,7 +107,7 @@ export default defineConfig(async ({ command }) => {
               ],
             }
           : {}),
-      }),
+      })]),
     ],
   };
 });

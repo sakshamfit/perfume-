@@ -1097,17 +1097,6 @@ export default function Home() {
               <strong>sakshamfit</strong>
             </a>
           </span>
-          <span className="source">
-            Based on{" "}
-            <a
-              href="https://github.com/gireeshkumarreddy/velora"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              velora
-            </a>{" "}
-            by Gireesh Kumar Reddy
-          </span>
         </div>
       </footer>
       <dialog
